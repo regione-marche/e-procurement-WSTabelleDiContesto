@@ -1,0 +1,464 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Servizio REST per interrogazioni tabellati SCP",
+    "version" : "2.1.0",
+    "title" : "WSTabelleDiContesto"
+  },
+  "tags" : [ {
+    "name" : "StazioniAppaltanti"
+  }, {
+    "name" : "Tabellati"
+  } ],
+  "paths" : {
+    "/StazioniAppaltanti/Pubblica" : {
+      "post" : {
+        "tags" : [ "StazioniAppaltanti" ],
+        "summary" : "Inserisce o modifica i dati relativi alle stazioni appaltanti",
+        "description" : "",
+        "operationId" : "StazioniAppaltanti.pubblica",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Stazioni appaltanti da pubblicare [Model=DatiGeneraliStazioneAppaltanteEntry]",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DatiGeneraliStazioneAppaltanteEntry"
+          }
+        }, {
+          "name" : "token",
+          "in" : "query",
+          "description" : "Token",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operazione effettuata con successo",
+            "schema" : {
+              "$ref" : "#/definitions/InserimentoResult"
+            }
+          },
+          "400" : {
+            "description" : "Controlli falliti sui parametri in input (si veda l'attributo error della risposta)"
+          },
+          "500" : {
+            "description" : "Errori durante l'esecuzione dell'operazione (si veda l'attributo error della risposta)"
+          }
+        }
+      }
+    },
+    "/Tabellati/Atti" : {
+      "get" : {
+        "tags" : [ "Tabellati" ],
+        "summary" : "Estrae gli atti pubblicabili",
+        "description" : "",
+        "operationId" : "TabellatiRestService.atti",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "lingua delle voci ritornate",
+          "required" : false,
+          "type" : "string",
+          "default" : "it"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operazione effettuata con successo",
+            "schema" : {
+              "$ref" : "#/definitions/TabellatoResult"
+            }
+          },
+          "500" : {
+            "description" : "Errori durante l'esecuzione dell'operazione (si veda l'attributo error della risposta)"
+          }
+        }
+      }
+    },
+    "/Tabellati/Province" : {
+      "get" : {
+        "tags" : [ "Tabellati" ],
+        "summary" : "Estrae le province sulla base dei criteri di filtro impostati",
+        "description" : "",
+        "operationId" : "TabellatiRestService.province",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "regione",
+          "in" : "query",
+          "description" : "codice istat regione",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "001", "002", "003", "004", "005", "006", "007", "008", "009", "010", "011", "012", "013", "014", "015", "016", "017", "018", "019", "020" ]
+        }, {
+          "name" : "language",
+          "in" : "query",
+          "description" : "lingua delle voci ritornate",
+          "required" : false,
+          "type" : "string",
+          "default" : "it"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operazione effettuata con successo",
+            "schema" : {
+              "$ref" : "#/definitions/TabellatoResult"
+            }
+          },
+          "404" : {
+            "description" : "Il tabellato richiesto non è stato trovato (si veda l'attributo error della risposta)"
+          },
+          "500" : {
+            "description" : "Errori durante l'esecuzione dell'operazione (si veda l'attributo error della risposta)"
+          }
+        }
+      }
+    },
+    "/Tabellati/ProvinceIstat" : {
+      "get" : {
+        "tags" : [ "Tabellati" ],
+        "summary" : "Estrae le province sulla base dei criteri di filtro impostati, includendo il codice istat",
+        "description" : "",
+        "operationId" : "TabellatiRestService.provinceIstat",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "lingua delle voci ritornate",
+          "required" : false,
+          "type" : "string",
+          "default" : "it"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operazione effettuata con successo",
+            "schema" : {
+              "$ref" : "#/definitions/TabellatoProvinceResult"
+            }
+          },
+          "404" : {
+            "description" : "Il tabellato richiesto non è stato trovato (si veda l'attributo error della risposta)"
+          },
+          "500" : {
+            "description" : "Errori durante l'esecuzione dell'operazione (si veda l'attributo error della risposta)"
+          }
+        }
+      }
+    },
+    "/Tabellati/Regioni" : {
+      "get" : {
+        "tags" : [ "Tabellati" ],
+        "summary" : "Estrae le regioni",
+        "description" : "",
+        "operationId" : "TabellatiRestService.regioni",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "lingua delle voci ritornate",
+          "required" : false,
+          "type" : "string",
+          "default" : "it"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operazione effettuata con successo",
+            "schema" : {
+              "$ref" : "#/definitions/TabellatoResult"
+            }
+          },
+          "500" : {
+            "description" : "Errori durante l'esecuzione dell'operazione (si veda l'attributo error della risposta)"
+          }
+        }
+      }
+    },
+    "/Tabellati/Valore" : {
+      "get" : {
+        "tags" : [ "Tabellati" ],
+        "summary" : "Estrae la voce del tabellato sulla base dei criteri di filtro impostati",
+        "description" : "",
+        "operationId" : "TabellatiRestService.valore",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "cod",
+          "in" : "query",
+          "description" : "codice descrittivo del tabellato richiesto",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "Indizione", "TipologiaSA", "TipologiaProcedura", "Area", "Fase", "TipoInvio", "TipoAvviso", "SN", "TipoAppalto", "CriterioAggiudicazione", "TipoRealizzazione", "SceltaContraente", "SceltaContraente50", "MotivoCompletamento", "TipologiaAggiudicatario", "RuoloAssociazione", "TipologiaCC", "Categorie", "Classe", "Settore", "FormaGiuridica", "Entita", "Stato", "TipoProgramma", "Determinazioni", "Ambito", "Causa", "StatoRealizzazione", "DestinazioneUso", "TipologiaIntervento", "CategoriaIntervento", "Priorita", "Finalita", "StatoProgettazione", "TrasferimentoImmobile", "ImmobileDisponibile", "ProgrammaDismissione", "TipoProprieta", "TipologiaCapitalePrivato", "TipoDisponibilita", "VariatoAcquisti", "VariatoInterventi", "MesePrevisto", "TipologiaInterventoDM112011", "CategoriaInterventoDM112011", "FinalitaDM112011", "StatoProgettazioneDM112011", "TipologiaCapitalePrivatoDM112011", "UnitaMisura", "AcquistoRicompreso", "ProceduraAffidamento", "Acquisto", "Valutazione", "PrestazioniComprese", "ModalitaAcquisizioneForniture", "TipologiaLavoro", "Condizione", "TipologiaAmministrazione" ]
+        }, {
+          "name" : "valore",
+          "in" : "query",
+          "description" : "codice della riga del tabellato",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "language",
+          "in" : "query",
+          "description" : "lingua delle voci ritornate",
+          "required" : false,
+          "type" : "string",
+          "default" : "it"
+        }, {
+          "name" : "token",
+          "in" : "query",
+          "description" : "Token",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operazione effettuata con successo",
+            "schema" : {
+              "$ref" : "#/definitions/RigaResult"
+            }
+          },
+          "400" : {
+            "description" : "Controlli falliti sui parametri in input (si veda l'attributo error della risposta)"
+          },
+          "404" : {
+            "description" : "Il tabellato richiesto non è stato trovato (si veda l'attributo error della risposta)"
+          },
+          "500" : {
+            "description" : "Errori durante l'esecuzione dell'operazione (si veda l'attributo error della risposta)"
+          }
+        }
+      }
+    },
+    "/Tabellati/Valori" : {
+      "get" : {
+        "tags" : [ "Tabellati" ],
+        "summary" : "Estrae le voci del tabellato sulla base dei criteri di filtro impostati",
+        "description" : "",
+        "operationId" : "TabellatiRestService.valori",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "cod",
+          "in" : "query",
+          "description" : "codice descrittivo del tabellato richiesto",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "Indizione", "TipologiaSA", "TipologiaProcedura", "Area", "Fase", "TipoInvio", "TipoAvviso", "SN", "TipoAppalto", "CriterioAggiudicazione", "TipoRealizzazione", "SceltaContraente", "SceltaContraente50", "MotivoCompletamento", "TipologiaAggiudicatario", "RuoloAssociazione", "TipologiaCC", "Categorie", "Classe", "Settore", "FormaGiuridica", "TipoProgramma", "Determinazioni", "Ambito", "Causa", "StatoRealizzazione", "DestinazioneUso", "TipologiaIntervento", "CategoriaIntervento", "Priorita", "Finalita", "StatoProgettazione", "TrasferimentoImmobile", "ImmobileDisponibile", "ProgrammaDismissione", "TipoProprieta", "TipologiaCapitalePrivato", "TipoDisponibilita", "VariatoAcquisti", "VariatoInterventi", "MesePrevisto", "TipologiaInterventoDM112011", "CategoriaInterventoDM112011", "FinalitaDM112011", "StatoProgettazioneDM112011", "TipologiaCapitalePrivatoDM112011", "UnitaMisura", "AcquistoRicompreso", "ProceduraAffidamento", "Acquisto", "Valutazione", "PrestazioniComprese", "ModalitaAcquisizioneForniture", "TipologiaLavoro", "Condizione", "TipologiaAmministrazione" ]
+        }, {
+          "name" : "language",
+          "in" : "query",
+          "description" : "lingua delle voci ritornate",
+          "required" : false,
+          "type" : "string",
+          "default" : "it"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operazione effettuata con successo",
+            "schema" : {
+              "$ref" : "#/definitions/TabellatoResult"
+            }
+          },
+          "404" : {
+            "description" : "Il tabellato richiesto non è stato trovato (si veda l'attributo error della risposta)"
+          },
+          "500" : {
+            "description" : "Errori durante l'esecuzione dell'operazione (si veda l'attributo error della risposta)"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "DatiGeneraliStazioneAppaltanteEntry" : {
+      "type" : "object",
+      "properties" : {
+        "denominazione" : {
+          "type" : "string",
+          "description" : "Denominazione"
+        },
+        "indirizzo" : {
+          "type" : "string",
+          "description" : "Indirizzo (via/piazza/corso)"
+        },
+        "civico" : {
+          "type" : "string",
+          "description" : "Numero civico"
+        },
+        "codiceIstat" : {
+          "type" : "string",
+          "description" : "Codice istat comune"
+        },
+        "localita" : {
+          "type" : "string",
+          "description" : "Localita'dell'intestatario"
+        },
+        "provincia" : {
+          "type" : "string",
+          "description" : "Provincia dell'intestatario\t(Tabellati/Province)"
+        },
+        "cap" : {
+          "type" : "string",
+          "description" : "Codice di avviamento postale"
+        },
+        "codiceNazione" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Codice nazione"
+        },
+        "telefono" : {
+          "type" : "string",
+          "description" : "Telefono"
+        },
+        "fax" : {
+          "type" : "string",
+          "description" : "FAX"
+        },
+        "codiceFiscale" : {
+          "type" : "string",
+          "description" : "Codice fiscale"
+        },
+        "tipoAmministrazione" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Tipo di amministrazione\t(/Tabellati/Valori?cod=TipologiaAmministrazione)"
+        },
+        "email" : {
+          "type" : "string",
+          "description" : "Indirizzo E-mail"
+        },
+        "pec" : {
+          "type" : "string",
+          "description" : "Indirizzo PEC"
+        },
+        "iscuc" : {
+          "type" : "string",
+          "description" : "Determina se sia una centrakle unica di committenza"
+        },
+        "cfAnac" : {
+          "type" : "string",
+          "description" : "Codice fiscale fittizio assegnato da ANAC"
+        }
+      },
+      "description" : "Contenitore per i dati generali della stazione appaltante"
+    },
+    "InserimentoResult" : {
+      "type" : "object",
+      "properties" : {
+        "error" : {
+          "type" : "string",
+          "description" : "Eventuale messaggio di errore in caso di operazione fallita"
+        },
+        "validate" : {
+          "type" : "array",
+          "description" : "Eventuale lista dei controlli di validazione che hanno generato errore",
+          "items" : {
+            "$ref" : "#/definitions/ValidateEntry"
+          }
+        }
+      },
+      "description" : "Contenitore per il risultato di una operazione di inserimento"
+    },
+    "RigaResult" : {
+      "type" : "object",
+      "properties" : {
+        "riga" : {
+          "$ref" : "#/definitions/TabellatoEntry"
+        },
+        "error" : {
+          "type" : "string"
+        }
+      }
+    },
+    "TabellatoEntry" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "Codice tabellato"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "Descrizione tabellato"
+        }
+      }
+    },
+    "TabellatoProvinceEntry" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "description" : "Codice tabellato"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "Descrizione tabellato"
+        },
+        "codistat" : {
+          "type" : "string",
+          "description" : "codice istat della regione di appartenenza"
+        }
+      }
+    },
+    "TabellatoProvinceResult" : {
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TabellatoProvinceEntry"
+          }
+        },
+        "error" : {
+          "type" : "string"
+        }
+      }
+    },
+    "TabellatoResult" : {
+      "type" : "object",
+      "properties" : {
+        "data" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TabellatoEntry"
+          }
+        },
+        "error" : {
+          "type" : "string"
+        }
+      }
+    },
+    "TokenValidationResult" : {
+      "type" : "object",
+      "properties" : {
+        "validated" : {
+          "type" : "boolean"
+        },
+        "clientId" : {
+          "type" : "string"
+        },
+        "error" : {
+          "type" : "string"
+        },
+        "canEdit" : {
+          "type" : "boolean"
+        },
+        "syscon" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ValidateEntry" : {
+      "type" : "object",
+      "properties" : {
+        "nome" : {
+          "type" : "string",
+          "description" : "Nome campo validato"
+        },
+        "messaggio" : {
+          "type" : "string",
+          "description" : "Messaggio di errore"
+        }
+      },
+      "description" : "Errore di validazione"
+    }
+  }
+}
