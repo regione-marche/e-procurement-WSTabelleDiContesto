@@ -12,7 +12,7 @@
 	<groupId>it.maggioli.eldasoft</groupId>
 	<artifactId>WSTabelleDiContesto</artifactId>
 	<packaging>war</packaging>
-	<version>5.6.0</version>
+	<version>5.7.0</version>
 	<name>WSTabelleDiContesto</name>
 	<description>Servizio REST per interrogazioni tabellati SCP</description>
 
@@ -25,7 +25,7 @@
 		<dependency>
             <groupId>it.maggioli.eldasoft</groupId>
             <artifactId>WSDatiTabelleContesto</artifactId>
-            <version>5.6.0</version>
+            <version>5.5.0</version>
 
 		</dependency>
 		<dependency>
@@ -180,10 +180,10 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- ultime versioni compatibili con java 7 -->
-		<slf4j.version>1.7.25</slf4j.version>
+		<slf4j.version>1.7.32</slf4j.version>
 		<spring.version>4.3.11.RELEASE</spring.version>
 		<jersey.version>2.25.1</jersey.version>
-		<log4j2.version>2.9.1</log4j2.version>
+		<log4j2.version>2.16.0</log4j2.version>
 	</properties>
 	<profiles>
 		<profile>
@@ -239,6 +239,79 @@
 		<finalName>WSTabelleDiContesto</finalName>
 
 		<plugins>
+            <plugin>
+                <groupId>com.github.kongchen</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>3.1.7</version>
+                <configuration>
+                	
+                    <apiSources>
+                      <apiSource>
+                            <springmvc>false</springmvc>
+                            <locations>
+								<location>it.maggioli.eldasoft</location>
+							</locations>
+							<!--
+                            <schemes>http,https</schemes>
+                            <host>petstore.swagger.wordnik.com</host>
+                            <basePath>/api</basePath>
+							-->
+                            <info>
+                                <title>${project.name}</title>
+                                <version>${project.version}</version>
+                                <description>${project.description}</description>
+								<!--
+                                <termsOfService>
+                                    http://www.github.com/kongchen/swagger-maven-plugin
+                                </termsOfService>
+								-->
+								<!--
+                                <license>
+                                    <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+                                    <name>Apache 2.0</name>
+                                </license>
+								-->
+                            </info>
+                            <!-- Support classpath or file absolute path here.
+                            1) classpath e.g: "classpath:/markdown.hbs", "classpath:/templates/hello.html"
+                            2) file e.g: "${basedir}/src/main/resources/markdown.hbs",
+                                "${basedir}/src/main/resources/template/hello.html" -->
+                            <!--
+							<templatePath>${basedir}/templates/strapdown.html.hbs</templatePath>
+                            <outputPath>${basedir}/generated/document.html</outputPath>
+							-->
+                            <swaggerDirectory>${project.build.directory}/swagger</swaggerDirectory>
+							<!--
+                            <securityDefinitions>
+                                <securityDefinition>
+                                    <json>/securityDefinitions.json</json>
+                                </securityDefinition>
+                            </securityDefinitions>
+							-->
+                        </apiSource>
+                    </apiSources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                 <dependencies>
+                 	<dependency>
+			            <groupId>it.maggioli.eldasoft</groupId>
+			            <artifactId>WSDatiTabelleContesto</artifactId>
+			            <version>1.0.0</version>
+			            <exclusions>
+			            	<exclusion>  <!-- declare the exclusion here -->
+					          <groupId>org.apache.logging.log4j</groupId>
+					          <artifactId>log4j-core</artifactId>
+					        </exclusion>
+			            </exclusions>
+			        </dependency>
+                 </dependencies>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
